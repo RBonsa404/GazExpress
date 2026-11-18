@@ -1,0 +1,13 @@
+Options -Indexes
+RewriteEngine On
+
+# Interdire l'accès direct au code applicatif et aux scripts SQL
+RewriteRule ^(app|config|database|docs)(/|$) - [F,L]
+
+# Les fichiers et dossiers existants (assets) sont servis tels quels
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Tout le reste passe par le contrôleur frontal
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

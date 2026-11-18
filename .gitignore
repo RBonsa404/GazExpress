@@ -1,0 +1,17 @@
+# Système
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Dépendances et fichiers générés
+node_modules/
+vendor/
+*.log
+
+# Fichiers temporaires Office
+~$*
