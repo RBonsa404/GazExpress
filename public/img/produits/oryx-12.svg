@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" role="img" aria-label="Bouteille de gaz ORYX 12,5 kg">
+  <title>Bouteille de gaz ORYX 12,5 kg</title>
+  <defs>
+    <linearGradient id="coryx12" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#A65E14"/>
+      <stop offset=".32" stop-color="#EE9A43"/>
+      <stop offset=".55" stop-color="#D27A1F"/>
+      <stop offset="1" stop-color="#A65E14"/>
+    </linearGradient>
+    <linearGradient id="laiton" x1="0" x2="1">
+      <stop offset="0" stop-color="#9C7A32"/><stop offset=".45" stop-color="#D8B25A"/><stop offset="1" stop-color="#8A6A2A"/>
+    </linearGradient>
+    <clipPath id="koryx12"><path d="M50 96 Q50 64 82 64 H118 Q150 64 150 96 V228 Q150 238 140 238 H60 Q50 238 50 228 Z"/></clipPath>
+  </defs>
+  <ellipse cx="100" cy="251" rx="100" ry="6" fill="#0F172A" opacity=".08"/>
+  <path d="M60 236 H140 L144 250 H56 Z" fill="#374151"/><rect x="66" y="241" width="16" height="6" rx="3" fill="#1F2937"/><rect x="118" y="241" width="16" height="6" rx="3" fill="#1F2937"/>
+  <path d="M72 70 V30 Q72 24 78 24 H122 Q128 24 128 30 V70 Z" fill="url(#coryx12)"/>
+  <rect x="85" y="31" width="30" height="9" rx="4.5" fill="#0F172A" opacity=".55"/>
+  <rect x="93" y="44" width="14" height="14" rx="2" fill="url(#laiton)"/><rect x="89" y="41" width="22" height="5" rx="2" fill="#8A6A2A"/><rect x="107" y="49" width="10" height="6" rx="1.5" fill="#6B7280"/>
+  <path d="M50 96 Q50 64 82 64 H118 Q150 64 150 96 V228 Q150 238 140 238 H60 Q50 238 50 228 Z" fill="url(#coryx12)"/>
+  <g clip-path="url(#koryx12)">
+    <path d="M50 104 H150" stroke="#A65E14" stroke-width="2" opacity=".7"/>
+    <rect x="50" y="133" width="100" height="46" fill="#F8FAFC"/><rect x="50" y="176" width="100" height="3" fill="#D27A1F"/><text x="100" y="154" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="17" letter-spacing=".5" fill="#A65E14">ORYX</text><text x="100" y="169" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="10.5" fill="#334155">12,5 kg · Butane</text>
+    <rect x="50" y="64" width="8" height="200" fill="#fff" opacity=".10" transform="translate(18 0)"/>
+  </g>
+</svg>

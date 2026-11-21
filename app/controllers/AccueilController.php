@@ -32,11 +32,12 @@ class AccueilController extends Controller
         }, $vendeurs);
 
         $this->render('accueil/index', [
-            'titre'     => 'Commandez votre gaz domestique en un clic',
+            'titre'     => 'Bouteilles de gaz livrées à Ouagadougou',
             'page'      => 'accueil',
             'vendeurs'  => $vendeurs,
             'quartiers' => (new Quartier())->avecVendeurs(),
             'carte'     => $carte,
+            'produits'  => (new Produit())->catalogueGeneral(),
         ]);
     }
 }

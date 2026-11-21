@@ -69,6 +69,8 @@ class Panier
             $articles[] = [
                 'produit_id'  => $produitId,
                 'designation' => $s['marque'] . ' ' . capacite($s['capacite_kg']),
+                'marque'      => $s['marque'],
+                'capacite_kg' => $s['capacite_kg'],
                 'prix'        => (int) $s['prix'],
                 'quantite'    => $qte,
                 'stock'       => (int) $s['quantite'],

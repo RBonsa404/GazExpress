@@ -32,7 +32,9 @@
     poserFond();
 
     const echapper = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const couleurs = { disponible: '#10B981', limite: '#F59E0B', indisponible: '#EF4444' };
+    const couleurs = { disponible: '#0F8A5F', limite: '#D97706', indisponible: '#B91C1C' };
+    const SPRITE = document.body.dataset.icones || '';
+    const ico = nom => `<svg class="ic" aria-hidden="true"><use href="${SPRITE}#${nom}"></use></svg>`;
 
     const marqueurs = {};
     const groupe = L.featureGroup().addTo(carte);
@@ -40,8 +42,8 @@
     vendeurs.forEach(v => {
         const icone = L.divIcon({
             className: '',
-            html: `<div class="marqueur-gaz ${v.etat}"><i class="fa-solid fa-fire-flame-simple"></i></div>`,
-            iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18]
+            html: `<div class="marqueur-gaz ${v.etat}">${ico('bouteille')}</div>`,
+            iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30]
         });
         const stocks = v.stocks.map(s =>
             `<li><span><span class="p-etat" style="background:${couleurs[s.etat]}"></span>${echapper(s.produit)}</span><b>${echapper(s.prix)}</b></li>`
@@ -49,11 +51,11 @@
         const popup = `
             <div class="popup">
                 <h4>${echapper(v.nom)}</h4>
-                <p><i class="fa-solid fa-location-dot"></i> ${echapper(v.adresse)}</p>
-                <p><i class="fa-regular fa-clock"></i> ${echapper(v.horaires)} ${v.ouvert ? '' : '· <b style="color:#B91C1C">Fermé</b>'}</p>
-                <p><i class="fa-solid fa-phone"></i> ${echapper(v.telephone)}</p>
+                <p>${echapper(v.quartier)} · ${echapper(v.adresse)}</p>
+                <p>Ouvert ${echapper(v.horaires)} ${v.ouvert ? '' : '· <b style="color:#B91C1C">Fermé</b>'}</p>
+                <p>Tél. ${echapper(v.telephone)}</p>
                 <ul>${stocks || '<li>Aucun produit renseigné</li>'}</ul>
-                <a class="btn btn-primaire btn-petit" href="${echapper(v.url)}">Commander ici</a>
+                <a class="btn btn-primaire btn-petit" href="${echapper(v.url)}">Voir le stock et commander</a>
             </div>`;
         const m = L.marker([v.lat, v.lon], { icon: icone, title: v.nom }).bindPopup(popup);
         m.on('click', () => surligner(v.id));
@@ -126,4 +128,18 @@
             if (proche) surligner(proche);
         }, () => { /* refus : la carte reste centrée sur Ouagadougou */ }, { timeout: 8000 });
     });
+
+    /* Recherche du bandeau d'accueil : filtre la liste et fait défiler jusqu'à la carte */
+    function chercher(texte) {
+        if (!champ) return;
+        champ.value = texte;
+        filtrer();
+        document.getElementById('vendeurs')?.scrollIntoView({ behavior: 'smooth' });
+    }
+    document.getElementById('form-intro')?.addEventListener('submit', e => {
+        e.preventDefault();
+        chercher(e.target.q.value.trim());
+    });
+    const qInitial = new URLSearchParams(location.search).get('q');
+    if (qInitial) chercher(qInitial);
 })();

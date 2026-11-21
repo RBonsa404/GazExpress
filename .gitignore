@@ -15,3 +15,6 @@ vendor/
 
 # Fichiers temporaires Office
 ~$*
+
+# Configuration propre au serveur (identifiants MySQL)
+config/env.php

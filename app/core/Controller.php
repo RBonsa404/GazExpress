@@ -23,7 +23,7 @@ class Controller
         echo json_encode($donnees, JSON_UNESCAPED_UNICODE);
     }
 
-    protected function entier(string $cle, array $source = null): int
+    protected function entier(string $cle, ?array $source = null): int
     {
         $source = $source ?? $_POST;
         return (int) filter_var($source[$cle] ?? 0, FILTER_VALIDATE_INT, ['options' => ['default' => 0]]);

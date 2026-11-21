@@ -29,6 +29,7 @@ spl_autoload_register(function (string $classe): void {
 session_set_cookie_params([
     'lifetime' => 0,
     'path'     => BASE_URL . '/',
+    'secure'   => EN_HTTPS,
     'httponly' => true,
     'samesite' => 'Lax',
 ]);
@@ -40,7 +41,6 @@ $router = new Router();
 // Pages publiques
 $router->get('',                 'AccueilController@index');
 $router->get('catalogue',        'CatalogueController@index');
-$router->get('charte',           'CharteController@index');
 
 // Authentification
 $router->get('connexion',        'AuthController@connexion');

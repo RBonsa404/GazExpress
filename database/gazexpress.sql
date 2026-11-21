@@ -10,9 +10,14 @@ SET NAMES utf8mb4;
 SET time_zone = '+00:00';
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP DATABASE IF EXISTS gazexpress;
-CREATE DATABASE gazexpress CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE gazexpress;
+-- Le script s'importe dans la base sélectionnée (phpMyAdmin : choisir la base, puis Importer).
+-- Il ne crée pas la base lui-même : sur un hébergement mutualisé (o2switch, cPanel),
+-- la base est créée dans cPanel et son nom porte le préfixe du compte.
+-- Relancer le script remet les données de démonstration à zéro.
+
+DROP VIEW IF EXISTS v_synthese_vendeurs;
+DROP TABLE IF EXISTS reclamations, historique_statuts, notifications, avis, paiements, livraisons,
+    details_commande, commandes, stocks, produits, livreurs, vendeurs, utilisateurs, quartiers;
 
 -- ---------------------------------------------------------------------
 -- Référentiel des quartiers desservis (frais de livraison par zone)
@@ -346,12 +351,12 @@ INSERT INTO livreurs (id, utilisateur_id, type_engin, immatriculation, numero_pi
 (3, 12, 'moto',     '11 MM 3210', 'B99001122', 0, 'en_attente', NULL);
 
 INSERT INTO produits (id, designation, marque, capacite_kg, description, prix_reference) VALUES
-(1, 'Bouteille Gaz SODIGAZ 6 kg',    'SODIGAZ', 6.0,  'Consignation ou recharge standard normalisée.', 3000),
-(2, 'Bouteille Gaz SODIGAZ 12.5 kg', 'SODIGAZ', 12.5, 'Consignation ou recharge standard normalisée.', 6200),
-(3, 'Bouteille Gaz TOTAL 6 kg',      'TOTAL',   6.0,  'Consignation ou recharge standard normalisée.', 3200),
-(4, 'Bouteille Gaz TOTAL 12.5 kg',   'TOTAL',   12.5, 'Consignation ou recharge standard normalisée.', 6500),
-(5, 'Bouteille Gaz ORYX 6 kg',       'ORYX',    6.0,  'Consignation ou recharge standard normalisée.', 3150),
-(6, 'Bouteille Gaz ORYX 12.5 kg',    'ORYX',    12.5, 'Consignation ou recharge standard normalisée.', 6400);
+(1, 'Bouteille Gaz SODIGAZ 6 kg',    'SODIGAZ', 6.0,  'Recharge butane, échange contre une bouteille vide.', 3000),
+(2, 'Bouteille Gaz SODIGAZ 12,5 kg', 'SODIGAZ', 12.5, 'Recharge butane, échange contre une bouteille vide.', 6200),
+(3, 'Bouteille Gaz TOTAL 6 kg',      'TOTAL',   6.0,  'Recharge butane, échange contre une bouteille vide.', 3200),
+(4, 'Bouteille Gaz TOTAL 12,5 kg',   'TOTAL',   12.5, 'Recharge butane, échange contre une bouteille vide.', 6500),
+(5, 'Bouteille Gaz ORYX 6 kg',       'ORYX',    6.0,  'Recharge butane, échange contre une bouteille vide.', 3150),
+(6, 'Bouteille Gaz ORYX 12,5 kg',    'ORYX',    12.5, 'Recharge butane, échange contre une bouteille vide.', 6400);
 
 INSERT INTO stocks (vendeur_id, produit_id, quantite, prix) VALUES
 (1, 1, 18, 3000), (1, 2, 10, 6200), (1, 4, 3, 6500), (1, 3, 11, 3200),

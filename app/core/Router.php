@@ -40,7 +40,9 @@ class Router
             http_response_code(500);
             (new Controller())->render('erreurs/500', [
                 'titre'   => 'Service indisponible',
-                'message' => 'La base de données est inaccessible. Vérifiez que MySQL est démarré et que la base « gazexpress » a été importée.',
+                'message' => APP_DEBUG
+                    ? 'La base de données est inaccessible. Vérifiez que MySQL est démarré, que la base a été importée et que config/env.php est correct.'
+                    : 'Le service est momentanément indisponible. Merci de réessayer dans quelques minutes.',
             ]);
         }
     }

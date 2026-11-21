@@ -21,6 +21,21 @@ function asset(string $chemin): string
     return BASE_URL . '/public/' . ltrim($chemin, '/') . '?v=' . $version;
 }
 
+/** Icône du jeu local public/img/icones.svg (hérite de la couleur du texte). */
+function icone(string $nom, string $classe = ''): string
+{
+    static $sprite = null;
+    $sprite = $sprite ?? asset('img/icones.svg');
+    return '<svg class="ic' . ($classe !== '' ? ' ' . $classe : '') . '" aria-hidden="true" focusable="false"><use href="' . $sprite . '#' . $nom . '"></use></svg>';
+}
+
+/** Illustration de la bouteille correspondant à une marque et une capacité. */
+function visuel_produit(string $marque, $capaciteKg): string
+{
+    $fichier = 'img/produits/' . strtolower($marque) . '-' . ((float) $capaciteKg > 9 ? '12' : '6') . '.svg';
+    return is_file(ROOT_PATH . '/public/' . $fichier) ? asset($fichier) : asset('img/produits/generique.svg');
+}
+
 function redirect(string $chemin): void
 {
     header('Location: ' . (str_starts_with($chemin, 'http') || str_starts_with($chemin, '/') ? $chemin : url($chemin)));
@@ -110,7 +125,7 @@ function heure(?string $time): string
 
 function capacite($kg): string
 {
-    return rtrim(rtrim(number_format((float) $kg, 1, '.', ''), '0'), '.') . ' kg';
+    return str_replace('.', ',', rtrim(rtrim(number_format((float) $kg, 1, '.', ''), '0'), '.')) . ' kg';
 }
 
 /* ---------- Règles métier d'affichage ---------- */
@@ -130,18 +145,18 @@ function etat_stock(int $quantite): array
 function statuts_commande(): array
 {
     return [
-        'en_attente'     => ['libelle' => 'En attente',     'classe' => 'limite',       'icone' => 'fa-clock'],
-        'acceptee'       => ['libelle' => 'Acceptée',       'classe' => 'disponible',   'icone' => 'fa-check'],
-        'en_preparation' => ['libelle' => 'En préparation', 'classe' => 'limite',       'icone' => 'fa-box-open'],
-        'en_livraison'   => ['libelle' => 'En livraison',   'classe' => 'info',         'icone' => 'fa-motorcycle'],
-        'livree'         => ['libelle' => 'Livrée',         'classe' => 'disponible',   'icone' => 'fa-house-circle-check'],
-        'annulee'        => ['libelle' => 'Annulée',        'classe' => 'indisponible', 'icone' => 'fa-xmark'],
+        'en_attente'     => ['libelle' => 'En attente',     'classe' => 'limite',       'icone' => 'horloge'],
+        'acceptee'       => ['libelle' => 'Acceptée',       'classe' => 'disponible',   'icone' => 'check'],
+        'en_preparation' => ['libelle' => 'En préparation', 'classe' => 'limite',       'icone' => 'colis'],
+        'en_livraison'   => ['libelle' => 'En livraison',   'classe' => 'info',         'icone' => 'moto'],
+        'livree'         => ['libelle' => 'Livrée',         'classe' => 'disponible',   'icone' => 'check-cercle'],
+        'annulee'        => ['libelle' => 'Annulée',        'classe' => 'indisponible', 'icone' => 'croix-cercle'],
     ];
 }
 
 function statut_commande(string $cle): array
 {
-    return statuts_commande()[$cle] ?? ['libelle' => $cle, 'classe' => 'neutre', 'icone' => 'fa-circle'];
+    return statuts_commande()[$cle] ?? ['libelle' => $cle, 'classe' => 'neutre', 'icone' => 'info'];
 }
 
 function modes_paiement(): array

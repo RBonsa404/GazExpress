@@ -105,19 +105,34 @@
         setTimeout(() => t.remove(), 400);
     }, 6000 + i * 800));
 
-    /* ---------- Filtres par puces (catalogue, quartiers) ---------- */
-    $$('[data-filtre-groupe]').forEach(groupe => {
-        const cible = groupe.dataset.filtreGroupe;
-        $$('.puce', groupe).forEach(p => p.addEventListener('click', () => {
-            $$('.puce', groupe).forEach(x => x.classList.remove('actif'));
-            p.classList.add('actif');
-            const valeur = p.dataset.valeur;
-            $$(cible).forEach(el => {
-                el.style.display = (!valeur || el.dataset.filtre === valeur) ? '' : 'none';
-            });
-            document.dispatchEvent(new CustomEvent('filtre:change', { detail: { groupe: groupe.id, valeur } }));
-        }));
-    });
+    /* ---------- Filtres par puces (catalogue) ----------
+       Chaque groupe [data-filtre-groupe] filtre les éléments ciblés sur l'attribut
+       data-<data-filtre-attr> ; un élément reste visible s'il satisfait tous les groupes. */
+    const groupes = $$('[data-filtre-groupe]');
+    function appliquerFiltres() {
+        if (!groupes.length) return;
+        const cible = groupes[0].dataset.filtreGroupe;
+        const actifs = groupes.map(g => [g.dataset.filtreAttr, $('.puce.actif', g)?.dataset.valeur || '']);
+        let visibles = 0;
+        $$(cible).forEach(el => {
+            const ok = actifs.every(([attr, val]) => !val || el.dataset[attr] === val);
+            el.hidden = !ok;
+            if (ok) visibles++;
+        });
+        const compteur = $('[data-compteur-produits]');
+        if (compteur) compteur.textContent = visibles + ' bouteille' + (visibles > 1 ? 's' : '');
+        const vide = $('[data-aucun-produit]');
+        if (vide) vide.hidden = visibles > 0;
+    }
+    groupes.forEach(groupe => $$('.puce', groupe).forEach(p => p.addEventListener('click', () => {
+        $$('.puce', groupe).forEach(x => { x.classList.remove('actif'); x.setAttribute('aria-pressed', 'false'); });
+        p.classList.add('actif');
+        p.setAttribute('aria-pressed', 'true');
+        appliquerFiltres();
+    })));
+
+    /* ---------- Burger : état accessible ---------- */
+    $('#burger')?.addEventListener('click', e => e.currentTarget.setAttribute('aria-expanded', $('#nav').classList.contains('ouvert')));
 
     /* ---------- Confirmation des actions sensibles ---------- */
     $$('form[data-confirmer]').forEach(f => f.addEventListener('submit', e => {
